@@ -1,0 +1,133 @@
+{
+    "name": "nicklog/tailscale-dns-sync",
+    "type": "project",
+    "license": "proprietary",
+    "minimum-stability": "stable",
+    "prefer-stable": true,
+    "require": {
+        "php": ">=8.2",
+        "ext-ctype": "*",
+        "ext-iconv": "*",
+        "doctrine/annotations": "^1.0",
+        "phpdocumentor/reflection-docblock": "^5.3",
+        "phpstan/phpdoc-parser": "^1.15",
+        "symfony/console": "^6.2",
+        "symfony/dotenv": "^6.2",
+        "symfony/flex": "^2.2",
+        "symfony/framework-bundle": "^6.2",
+        "symfony/http-client": "6.2.*",
+        "symfony/property-access": "6.2.*",
+        "symfony/property-info": "6.2.*",
+        "symfony/runtime": "^6.2",
+        "symfony/serializer": "6.2.*",
+        "symfony/yaml": "^6.2"
+    },
+    "require-dev": {
+        "doctrine/coding-standard": "^11.1",
+        "roave/security-advisories": "dev-master",
+        "squizlabs/php_codesniffer": "^3.7",
+        "phpunit/phpunit": "^9.5",
+        "phpstan/phpstan": "^1.9",
+        "phpstan/phpstan-deprecation-rules": "^1.1",
+        "phpstan/phpstan-phpunit": "^1.3",
+        "phpstan/phpstan-strict-rules": "^1.4",
+        "phpstan/phpstan-symfony": "^1.2",
+        "maglnet/composer-require-checker": "^4.5",
+        "icanhazstring/composer-unused": "^0.8"
+    },
+    "config": {
+        "allow-plugins": {
+            "symfony/flex": true,
+            "symfony/runtime": true,
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        },
+        "sort-packages": true
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "App\\Tests\\": "tests/"
+        }
+    },
+    "replace": {
+        "symfony/polyfill-ctype": "*",
+        "symfony/polyfill-iconv": "*",
+        "symfony/polyfill-php72": "*",
+        "symfony/polyfill-php73": "*",
+        "symfony/polyfill-php74": "*",
+        "symfony/polyfill-php80": "*",
+        "symfony/polyfill-php81": "*"
+    },
+    "scripts": {
+        "auto-scripts": {
+            "cache:clear": "symfony-cmd"
+        },
+        "post-install-cmd": [
+            "@auto-scripts"
+        ],
+        "post-update-cmd": [
+            "@auto-scripts"
+        ],
+        "prepare-test": [
+            "php bin/console cache:clear --env=test --no-warmup --ansi",
+            "php bin/console cache:warmup --env=test --ansi"
+        ],
+        "check": [
+            "composer check-platform-reqs -n --ansi",
+            "composer validate --strict -n --ansi",
+            "@crc",
+            "@unuse",
+            "@cs-check-all",
+            "@test"
+        ],
+        "check-pre-push": [
+            "composer check-platform-reqs -n --ansi",
+            "composer validate --strict -n --ansi",
+            "@cs-check-diff",
+            "@lint-twig",
+            "@lint-yaml",
+            "@lint-container",
+            "@test"
+        ],
+        "test": [
+            "@prepare-test",
+            "@phpstan",
+            "@phpunit"
+        ],
+        "test-phpunit": [
+            "@prepare-test",
+            "@phpunit"
+        ],
+        "test-phpstan": [
+            "@prepare-test",
+            "@phpstan"
+        ],
+        "fos-js-dump": "php bin/console fos:js-routing:dump --format=json --target=public/js/fos_js_routes.json",
+        "crc": "vendor/bin/composer-require-checker --config-file=./composer-require-checker.json",
+        "phpstan": "phpstan analyse --ansi",
+        "phpstan-update-baseline": "phpstan analyse --ansi --generate-baseline phpstan-baseline.neon",
+        "phpunit": "phpunit --colors=always",
+        "cs-check": "phpcs -s --filter=GitModified",
+        "cs-check-all": "phpcs -s",
+        "cs-fix": "phpcbf --filter=GitModified",
+        "cs-fix-all": "phpcbf",
+        "lint-twig": "php bin/console lint:twig src templates --show-deprecations --ansi",
+        "lint-yaml": "php bin/console lint:yaml config src translations --parse-tags --ansi",
+        "lint-container": "php bin/console lint:container --ansi",
+        "unuse": "vendor/bin/composer-unused",
+        "install-codestandards": "Dealerdirect\\Composer\\Plugin\\Installers\\PHPCodeSniffer\\Plugin::run"
+    },
+    "conflict": {
+        "symfony/symfony": "*"
+    },
+    "extra": {
+        "symfony": {
+            "allow-contrib": false,
+            "require": "6.2.*"
+        }
+    }
+}

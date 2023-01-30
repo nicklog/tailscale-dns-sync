@@ -1,0 +1,12 @@
+version: '3.6'
+
+services:
+  app:
+    image: thecodingmachine/php:8.2-v4-apache
+    volumes:
+      - .:/var/www/html
+    environment:
+      - TZ=Europe/Berlin
+      - APP_ENV=dev
+      - APP_DEBUG=true
+      - APACHE_DOCUMENT_ROOT=public

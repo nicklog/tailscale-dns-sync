@@ -1,0 +1,23 @@
+{
+    "symbol-whitelist": [
+        "null",
+        "true",
+        "false",
+        "static",
+        "self",
+        "parent",
+        "array",
+        "string",
+        "int",
+        "float",
+        "bool",
+        "iterable",
+        "callable",
+        "void",
+        "mixed",
+        "object",
+        "PHP_CodeSniffer\\Filters\\ExactMatch",
+        "PHP_CodeSniffer\\Util\\Common",
+        "PHPUnit\\Runner\\BeforeFirstTestHook"
+    ]
+}

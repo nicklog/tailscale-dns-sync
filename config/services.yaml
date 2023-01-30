@@ -1,0 +1,14 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        bind:
+            $tailscaleKey: '%env(string:TAILSCALE_KEY)%'
+            $tailscaleNet: '%env(string:TAILSCALE_NET)%'
+            $cloudflareKey: '%env(string:CLOUDFLARE_KEY)%'
+    App\:
+        resource: '../src/'
+        exclude:
+            - '../src/DependencyInjection/'
+            - '../src/Entity/'
+            - '../src/Kernel.php'

@@ -1,0 +1,34 @@
+includes:
+    - vendor/phpstan/phpstan/conf/bleedingEdge.neon
+    - vendor/phpstan/phpstan-strict-rules/rules.neon
+    - vendor/phpstan/phpstan-deprecation-rules/rules.neon
+    - vendor/phpstan/phpstan-phpunit/extension.neon
+    - vendor/phpstan/phpstan-phpunit/rules.neon
+    - vendor/phpstan/phpstan-symfony/extension.neon
+    - vendor/phpstan/phpstan-symfony/rules.neon
+    - phpstan-baseline.neon
+
+parameters:
+    level: 8
+    paths:
+        - src
+        - tests
+
+    tmpDir: var/cache
+
+    parallel:
+        maximumNumberOfProcesses: 4
+
+    checkGenericClassInNonGenericObjectType: false
+    checkMissingIterableValueType: false
+
+    excludePaths:
+        - src/Infrastructure/Migrations/*
+        - src/Infrastructure/PHPCodeSniffer/*
+
+    symfony:
+        container_xml_path: 'var/cache/test/App_KernelTestDebugContainer.xml'
+        console_application_loader: bin/phpstan-console-loader.php
+
+    ignoreErrors:
+        - "#will always evaluate to true#"
