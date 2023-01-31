@@ -5,7 +5,11 @@ declare(strict_types=1);
 namespace App\Client\Cloudflare\Model;
 
 use DateTimeInterface;
+use IPLib\Address\AddressInterface;
+use IPLib\Factory;
 use Symfony\Component\Serializer\Annotation\SerializedName;
+
+use function in_array;
 
 final readonly class DnsRecord
 {
@@ -30,5 +34,17 @@ final readonly class DnsRecord
         #[SerializedName('modified_on')]
         public DateTimeInterface $modifiedOn,
     ) {
+    }
+
+    public function isIpZone(): bool
+    {
+        $ipTypes = ['A', 'AAAA'];
+
+        return in_array($this->type, $ipTypes, true);
+    }
+
+    public function getAddress(): AddressInterface|null
+    {
+        return Factory::parseAddressString($this->content);
     }
 }

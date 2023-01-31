@@ -7,6 +7,8 @@ namespace App\Client\Cloudflare\Collection;
 use App\Client\Cloudflare\Model\DnsRecord;
 use App\Infrastructure\Collection\Collection;
 
+use function in_array;
+
 /** @template-extends Collection<int, DnsRecord> */
 final class DnsRecords extends Collection
 {
@@ -15,8 +17,8 @@ final class DnsRecords extends Collection
         return $this->filter(static fn (DnsRecord $record): bool => $record->name === $name);
     }
 
-    public function selectByType(string $type): self
+    public function selectByTypes(string ...$types): self
     {
-        return $this->filter(static fn (DnsRecord $record): bool => $record->type === $type);
+        return $this->filter(static fn (DnsRecord $record): bool => in_array($record->type, $types, true));
     }
 }

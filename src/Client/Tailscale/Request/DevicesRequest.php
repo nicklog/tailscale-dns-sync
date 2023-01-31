@@ -13,6 +13,6 @@ final readonly class DevicesRequest
 
     public function getUrl(): string
     {
-        return 'https://api.tailscale.com/api/v2/tailnet/{tailnet}/devices';
+        return 'https://api.tailscale.com/api/v2/tailnet/{tailuser}/devices';
     }
 }

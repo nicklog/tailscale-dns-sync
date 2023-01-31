@@ -6,10 +6,11 @@ namespace App\Client\Cloudflare\Request;
 
 use function sprintf;
 
-final readonly class ZoneDnsRecordCreateRequest extends Request
+final readonly class ZoneDnsRecordUpdateRequest extends Request
 {
     public function __construct(
         private string $zoneId,
+        private string $dnsRecordId,
         private string $type,
         private string $name,
         private string $content,
@@ -19,14 +20,15 @@ final readonly class ZoneDnsRecordCreateRequest extends Request
 
     public function getMethod(): string
     {
-        return 'POST';
+        return 'PUT';
     }
 
     public function getUrl(): string
     {
         return sprintf(
-            'https://api.cloudflare.com/client/v4/zones/%s/dns_records',
+            'https://api.cloudflare.com/client/v4/zones/%s/dns_records/%s',
             $this->zoneId,
+            $this->dnsRecordId,
         );
     }
 

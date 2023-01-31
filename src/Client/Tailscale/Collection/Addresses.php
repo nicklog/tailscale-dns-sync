@@ -10,6 +10,7 @@ use IPLib\Factory;
 
 use function array_filter;
 use function array_map;
+use function array_values;
 
 /** @template-extends Collection<int, AddressInterface> */
 class Addresses extends Collection
@@ -21,6 +22,6 @@ class Addresses extends Collection
             $addresses,
         );
 
-        return new self(array_filter($addresses));
+        return new self(array_values(array_filter($addresses)));
     }
 }

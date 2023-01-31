@@ -19,7 +19,7 @@ final readonly class TailscaleClient
         private HttpClientInterface $httpClient,
         private SerializerInterface $serializer,
         private string $tailscaleKey,
-        private string $tailscaleNet,
+        private string $tailscaleUser,
     ) {
     }
 
@@ -32,7 +32,7 @@ final readonly class TailscaleClient
 
     private function sendRequest(DevicesRequest $request): ResponseInterface
     {
-        $url = str_replace('{tailnet}', $this->tailscaleNet, $request->getUrl());
+        $url = str_replace('{tailuser}', $this->tailscaleUser, $request->getUrl());
 
         return $this->httpClient->request($request->getMethod(), $url, [
             'auth_basic' => sprintf('%s:', $this->tailscaleKey),

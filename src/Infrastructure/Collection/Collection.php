@@ -11,6 +11,7 @@ use OutOfBoundsException;
 
 use function array_filter;
 use function array_map;
+use function array_unique;
 use function array_values;
 use function count;
 use function in_array;
@@ -20,7 +21,7 @@ use function in_array;
  * @template T
  * @template-implements IteratorAggregate<TKey, T>
  */
-abstract class Collection implements IteratorAggregate, Countable
+class Collection implements IteratorAggregate, Countable
 {
     /** @param array<TKey, T> $items */
     final public function __construct(
@@ -48,11 +49,22 @@ abstract class Collection implements IteratorAggregate, Countable
         ));
     }
 
-    /** @param callable(T): bool $callback */
-    final public function map(callable $callback): static
+    /**
+     * @param callable(T): K $callback
+     *
+     * @template K
+     */
+    final public function map(callable $callback): self
     {
-        return new static(array_map(
+        return new self(array_map(
             $callback,
+            $this->items,
+        ));
+    }
+
+    final public function unique(): static
+    {
+        return new static(array_unique(
             $this->items,
         ));
     }

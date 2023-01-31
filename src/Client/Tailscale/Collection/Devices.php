@@ -10,4 +10,9 @@ use App\Infrastructure\Collection\Collection;
 /** @template-extends Collection<int, Device> */
 final class Devices extends Collection
 {
+    /** @return Collection<int, string> */
+    public function getNames(): Collection
+    {
+        return $this->map(static fn (Device $device): string => $device->name);
+    }
 }

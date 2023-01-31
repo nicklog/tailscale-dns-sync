@@ -3,7 +3,9 @@ services:
         autowire: true
         autoconfigure: true
         bind:
+            $domain: '%env(string:DOMAIN)%'
             $tailscaleKey: '%env(string:TAILSCALE_KEY)%'
+            $tailscaleUser: '%env(string:TAILSCALE_USER)%'
             $tailscaleNet: '%env(string:TAILSCALE_NET)%'
             $cloudflareKey: '%env(string:CLOUDFLARE_KEY)%'
     App\:

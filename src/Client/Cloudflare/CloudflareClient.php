@@ -8,9 +8,11 @@ use App\Client\Cloudflare\Request\Request;
 use App\Client\Cloudflare\Request\ZoneDnsRecordCreateRequest;
 use App\Client\Cloudflare\Request\ZoneDnsRecordDeleteRequest;
 use App\Client\Cloudflare\Request\ZoneDnsRecordsRequest;
+use App\Client\Cloudflare\Request\ZoneDnsRecordUpdateRequest;
 use App\Client\Cloudflare\Request\ZonesRequest;
 use App\Client\Cloudflare\Response\ZoneDnsRecordCreateResponse;
 use App\Client\Cloudflare\Response\ZoneDnsRecordsResponse;
+use App\Client\Cloudflare\Response\ZoneDnsRecordUpdateResponse;
 use App\Client\Cloudflare\Response\ZonesResponse;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
@@ -44,6 +46,13 @@ final class CloudflareClient
         $response = $this->sendRequest($request);
 
         return $this->deserialize($response, ZoneDnsRecordCreateResponse::class);
+    }
+
+    public function updateZoneDnsRecord(ZoneDnsRecordUpdateRequest $request): ZoneDnsRecordUpdateResponse
+    {
+        $response = $this->sendRequest($request);
+
+        return $this->deserialize($response, ZoneDnsRecordUpdateResponse::class);
     }
 
     public function deleteZoneDnsRecord(ZoneDnsRecordDeleteRequest $request): bool

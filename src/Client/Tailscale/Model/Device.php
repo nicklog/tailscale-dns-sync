@@ -8,6 +8,9 @@ use App\Client\Tailscale\Collection\Addresses;
 use App\Client\Tailscale\Collection\Tags;
 use DateTimeInterface;
 
+use function sprintf;
+use function Symfony\Component\String\u;
+
 final readonly class Device
 {
     /**
@@ -46,5 +49,14 @@ final readonly class Device
     public function getTags(): Tags
     {
         return new Tags($this->tags);
+    }
+
+    public function getDomain(string $tailnet, string $domain): string
+    {
+        return u($this->name)
+            ->replace($tailnet, '')
+            ->trim('.')
+            ->append(sprintf('.%s', $domain))
+            ->toString();
     }
 }

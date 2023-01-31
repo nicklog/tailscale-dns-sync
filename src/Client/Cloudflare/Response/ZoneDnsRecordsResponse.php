@@ -6,9 +6,12 @@ namespace App\Client\Cloudflare\Response;
 
 use App\Client\Cloudflare\Collection\DnsRecords;
 use App\Client\Cloudflare\Model\DnsRecord;
+use ArrayIterator;
+use IteratorAggregate;
 use Symfony\Component\Serializer\Annotation\SerializedName;
 
-final class ZoneDnsRecordsResponse
+/** @template-implements  IteratorAggregate<int, DnsRecord> */
+final class ZoneDnsRecordsResponse implements IteratorAggregate
 {
     /** @param list<DnsRecord> $dnsRecords */
     public function __construct(
@@ -20,5 +23,11 @@ final class ZoneDnsRecordsResponse
     public function getDnsRecords(): DnsRecords
     {
         return new DnsRecords($this->dnsRecords);
+    }
+
+    /** @return ArrayIterator<int, DnsRecord> */
+    public function getIterator(): ArrayIterator
+    {
+        return $this->getDnsRecords()->getIterator();
     }
 }
