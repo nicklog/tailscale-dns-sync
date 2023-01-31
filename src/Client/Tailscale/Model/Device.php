@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Client\Tailscale\Model;
 
+use App\Client\Tailscale\Collection\Addresses;
+use App\Client\Tailscale\Collection\Tags;
 use DateTimeInterface;
 
 final readonly class Device
@@ -24,8 +26,8 @@ final readonly class Device
         public string $tailnetLockKey,
         public string $user,
         public string $clientVersion,
-        public array $addresses,
-        public array $tags,
+        private array $addresses,
+        private array $tags,
         public bool $authorized,
         public bool $blocksIncomingConnections,
         public bool $isExternal,
@@ -34,5 +36,15 @@ final readonly class Device
         public DateTimeInterface $expires,
         public DateTimeInterface $lastSeen,
     ) {
+    }
+
+    public function getAddresses(): Addresses
+    {
+        return Addresses::fromStrings(...$this->addresses);
+    }
+
+    public function getTags(): Tags
+    {
+        return new Tags($this->tags);
     }
 }
